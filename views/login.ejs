@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Stories Loader | Login</title>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"
+    />
+    <style>
+      body {
+        padding-top: 80px;
+      }
+      #customBtn {
+        display: inline-block;
+        background: white;
+        color: #444;
+        width: 190px;
+        border-radius: 5px;
+        border: thin solid #888;
+        box-shadow: 1px 1px 1px grey;
+        white-space: nowrap;
+      }
+      #customBtn:hover {
+        cursor: pointer;
+      }
+      span.label {
+        font-family: serif;
+        font-weight: normal;
+      }
+      span.icon {
+        background: url("/identity/sign-in/g-normal.png") transparent 5px 50%
+          no-repeat;
+        display: inline-block;
+        vertical-align: middle;
+        width: 42px;
+        height: 42px;
+      }
+      span.buttonText {
+        display: inline-block;
+        vertical-align: middle;
+        padding-left: 42px;
+        padding-right: 42px;
+        font-size: 14px;
+        font-weight: bold;
+        /* Use the Roboto font that is loaded in the <head> */
+        font-family: "Roboto", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container ">
+      <div class="col-sm-6 col-sm-offset-3 ">
+        <!-- LOGIN FORM -->
+        <fieldset>
+          <div class="white darken-4 col s10 m4">
+            <h1 class="text-center">Stories Loader</h1>
+            <a
+              type="submit"
+              id="loginButton"
+              onclick="signInUsers()"
+              class="btn btn-warning"
+              style="text-transform:none"
+            >
+              <div class="left">
+                <img
+                  width="20px"
+                  alt='Google "G" Logo'
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+                />
+              </div>
+              Acessar com Google
+            </a>
+          </div>
+
+          <button
+            type="submit"
+            id="logoutButton"
+            onclick="logout()"
+            class="btn btn-warning"
+          >
+            Sair
+          </button>
+        </fieldset>
+        <hr />
+      </div>
+    </div>
+    <script src="/js/firebase.js"></script>
+    <!-- Compiled and minified CSS -->
+  </body>
+</html>

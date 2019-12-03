@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Stories Loader</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel='stylesheet' href='/css/style.css' />
+  </head>
+  <body>
+    <nav class="navbar sticky-top navbar-light bg-light mb-3" id="navBar">
+        <a class="navbar-brand" href="#">Stories loader</a>
+        <button type="button" id="darkBtn" class="btn btn-outline-dark" data-toggle="button" aria-pressed="false" autocomplete="off">
+            nortuno
+        </button>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 mb-3 text-center">
+                <h1>Stories Loader</h1>
+                <h5>Envie os videos dos stories para o Youtube de forma rápida!</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <label for="targetUrls">Digite o nome do usuário:</label>
+                <input type="text" class="form-control" id="targetUrls" rows="8" cols="100" placeholder="nome"></input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 offset-md-2 text-right mt-1 mb-2">
+                <button class="btn btn-outline-secondary btn-lg" type="button" id="clearBtn">Limpar</button>
+                <button class="btn btn-outline-success btn-lg" type="button" id="submitBtn">Enviar</button>
+            </div>
+        </div>
+        <div class="col-md text-center">
+            <p id="loading" style="display:none"><strong>Carregando...</strong></p>
+        </div>
+        <div class="row">
+            <div class="col-md text-center">
+                <p id="nothing" style="display:none"><strong>nada</strong></p>
+            </div>
+        </div>
+        <div class="row" id="result">
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>

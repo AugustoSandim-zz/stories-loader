@@ -1,0 +1,162 @@
+const express = require("express"),
+  app = express(),
+  server = require("http").createServer(app),
+  fs = require("fs"),
+  Youtube = require("youtube-api"),
+  io = require("socket.io")(server),
+  gapi = require("../credentials/gapi"),
+  readJson = require("r-json"),
+  Logger = require("bug-killer"),
+  opn = require("opn"),
+  path = require("path"),
+  download = require("download"),
+  Spinner = require("cli-spinner").Spinner,
+  spinner = new Spinner("uploading.. %s");
+spinner.setSpinnerString("|/-\\");
+
+/*****************************************************
+ *                      APP                          *
+ ****************************************************/
+
+// app.use(express.static(__dirname + '/public'));
+server.listen(process.env.PORT || 3000, () => {
+  console.log("Youtube uploader app initiated! - localhost:5000");
+});
+
+/*****************************************************
+ *                    ROUTES                         *
+ ****************************************************/
+
+var apiRouter = require("../routes/apiRouter");
+
+// firebase
+var firebase = require("firebase");
+require("firebase/auth");
+require("firebase/database");
+// Initialize Firebase for the application
+var config = {
+  apiKey: "AIzaSyDF1M64jgOC4gLm-pI3NqrHxkHRH6wHG28",
+  authDomain: "stories-loader-257604.firebaseapp.com",
+  databaseURL: "https://stories-loader-257604.firebaseio.com",
+  projectId: "stories-loader-257604",
+  storageBucket: "stories-loader-257604.appspot.com",
+  messagingSenderId: "40159847187",
+  appId: "1:40159847187:web:4aa05005537c85689bf0e6"
+};
+
+firebase.initializeApp(config);
+
+// view engine setup
+app.set("views", path.join(__dirname, "../views"));
+app.set("view engine", "ejs");
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "../assets")));
+
+/* GET home page. */
+app.get("/stories", function(req, res, next) {
+  // console.log('------------', authenticate.isAuthenticated(req, res, next))
+  res.render("index", { title: "stories loader" });
+});
+
+app.get("/", function(req, res, next) {
+  res.render("login", { title: "Login" });
+});
+
+app.use("/api", apiRouter);
+
+/*****************************************************
+ *             SOCKET.IO EVENT LISTENERS            *
+ ****************************************************/
+
+let currentVideo = {};
+
+const DownloadVideo = async (url, nameFile) => {
+  console.log('---------------------------------name---------------------------', nameFile)
+  await download(url).pipe(
+    fs.createWriteStream(
+      path.join(__dirname, `../assets/video/${nameFile}.mp4`)
+    )
+  );
+};
+
+io.on("connection", function(socket) {
+  socket.on("start", function(video) {
+    console.log("---------start upload---------------");
+    
+    currentVideo = video;
+    let nameFile = currentVideo.video.split(".")[5].replace("/", "_");
+    console.log("---------curr---------------", currentVideo.video);
+
+    DownloadVideo(currentVideo.video, nameFile).then(res => {
+      console.log(
+        "-----------------------------Download video------------------------", res
+      );
+      // opn(
+        gapi.oauth.generateAuthUrl({
+          access_type: "online",
+          prompt: 'consent',
+          scope: ["https://www.googleapis.com/auth/youtube.upload"]
+        })
+      // );
+
+      app.get("/oauth2callback", function(req, res) {
+        let code = req.query.code;
+
+        Logger.log("Trying to get the token using the following code: " + code);
+
+        gapi.oauth.getToken(code, (err, tokens) => {
+          if (err) {
+            console.error(err);
+            res.status(500).send(err);
+            return Logger.log(err);
+          }
+
+          Logger.log("Got the tokens.");
+
+          gapi.oauth.setCredentials(tokens);
+
+          res.render("finish", { title: "VIDEO ENVIADO COM SUCESSO!" });
+
+          let req = Youtube.videos.insert(
+            {
+              resource: {
+                // Video title and description
+                snippet: {
+                  title: String(currentVideo.title),
+                  description: String(currentVideo.description),
+                  tags: String(currentVideo.tags)
+                },
+
+                status: {
+                  privacyStatus: String(currentVideo.privacyStatus)
+                }
+              },
+              // This is for the callback function
+              part: "snippet,status",
+
+              media: {
+                body: fs.createReadStream(
+                  path.join(__dirname, `../assets/video/${nameFile}.mp4`)
+                )
+              }
+            },
+            (err, data) => {
+              if (data) {
+                socket.emit("done", currentVideo);
+                spinner.stop(true);
+                Logger.log("Done!");
+              }
+              if (err) {
+                console.error(err);
+              }
+            }
+          );
+
+          spinner.start();
+        });
+      });
+    });
+  });
+});

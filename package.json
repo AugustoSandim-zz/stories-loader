@@ -1,0 +1,45 @@
+{
+  "name": "94orig",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "engines": {
+    "node": "10.13.0"
+  },
+  "dependencies": {
+    "bug-killer": "^4.4.4",
+    "cheerio": "^1.0.0-rc.3",
+    "cli-spinner": "^0.2.10",
+    "cookie-parser": "^1.4.4",
+    "debug": "~2.6.9",
+    "download": "^7.1.0",
+    "ejs": "~2.5.7",
+    "express": "^4.17.1",
+    "firebase": "^7.4.0",
+    "googleapis": "^45.0.0",
+    "http-errors": "~1.6.2",
+    "lien": "^3.3.0",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.1",
+    "node-telegram-bot-api": "^0.30.0",
+    "opn": "^6.0.0",
+    "pretty-bytes": "^5.3.0",
+    "puppeteer": "^1.18.1",
+    "r-json": "^1.2.9",
+    "request": "^2.88.0",
+    "socket.io": "^2.3.0",
+    "youtube-api": "^2.0.10"
+  },
+  "description": "service to return original instagram and twitter image to user",
+  "keywords": [
+    "telegram",
+    "node",
+    "twitter",
+    "instagram"
+  ],
+  "repositories": [],
+  "author": "sandim",
+  "license": "MIT"
+}

@@ -16,7 +16,7 @@
     "debug": "~2.6.9",
     "download": "^7.1.0",
     "ejs": "~2.5.7",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "firebase": "^7.4.0",
     "googleapis": "^45.0.0",
     "http-errors": "~1.6.2",
@@ -30,7 +30,7 @@
     "r-json": "^1.2.9",
     "request": "^2.88.0",
     "socket.io": "^2.3.0",
-    "youtube-api": "^2.0.10"
+    "youtube-api": "^3.0.1"
   },
   "description": "service to return original instagram and twitter image to user",
   "keywords": [
